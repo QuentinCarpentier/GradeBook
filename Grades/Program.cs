@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Grades
 {
@@ -8,6 +9,56 @@ namespace Grades
         {
             GradeBook gradeBook = new GradeBook();
 
+            AddEvents(gradeBook);
+            GetBookName(gradeBook);
+            AddGrades(gradeBook);
+            SaveGrades(gradeBook);
+            WriteGrades(gradeBook);
+        }
+
+        private static void WriteGrades(GradeBook gradeBook)
+        {
+            GradeStatistics gradeStatistics = gradeBook.ComputeStatistics();
+            WriteResult("Highest", gradeStatistics.HighestGrade);
+            WriteResult("Lowest", gradeStatistics.LowestGrade);
+            WriteResult("Average", gradeStatistics.AverageGrade);
+            WriteResult(gradeStatistics.LetterGrade, gradeStatistics.Description);
+        }
+
+        private static void SaveGrades(GradeBook gradeBook)
+        {
+            // Implicit try...catch...finally block > Close/Dispose the File even if an exception is thrown
+            using (StreamWriter outputFile = File.CreateText("grades.txt"))
+            {
+                gradeBook.WriteGrades(outputFile);
+            }
+        }
+
+        private static void AddGrades(GradeBook gradeBook)
+        {
+            gradeBook.AddGrade(91);
+            gradeBook.AddGrade(89.5f);
+            gradeBook.AddGrade(75);
+        }
+
+        private static void GetBookName(GradeBook gradeBook)
+        {
+            // Handling exeption with try...catch statement
+            try
+            {
+                Console.WriteLine("Enter the name of the Grade Book:");
+                gradeBook.Name = Console.ReadLine();
+                //gradeBook.Name = "Quentin's Grade Book";
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.StackTrace);
+            }
+        }
+
+        private static void AddEvents(GradeBook gradeBook)
+        {
             // Calling Delegate when the name changed
             //gradeBook.NameChanged = new NameChangedDelegate(OnNameChanged);
 
@@ -25,30 +76,6 @@ namespace Grades
             //gradeBook.NameChanged = null;
             // With events, we can assign something only with += or -= > add subscribers
             //gradeBook.NameChanged += null;
-
-            // Handling exeption with try...catch statement
-            try
-            {
-                Console.WriteLine("Enter the name of the Grade Book:");
-                gradeBook.Name = Console.ReadLine();
-                //gradeBook.Name = "Quentin's Grade Book";
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(ex.Message);
-                //Console.WriteLine(ex.StackTrace);
-            }
-            
-            gradeBook.AddGrade(91);
-            gradeBook.AddGrade(89.5f);
-            gradeBook.AddGrade(75);
-            gradeBook.WriteGrades(Console.Out);
-
-            GradeStatistics gradeStatistics = gradeBook.ComputeStatistics();
-            WriteResult("Highest", gradeStatistics.HighestGrade);
-            WriteResult("Lowest", gradeStatistics.LowestGrade);
-            WriteResult("Average", gradeStatistics.AverageGrade);
-            WriteResult(gradeStatistics.LetterGrade, gradeStatistics.Description);
         }
 
         static void OnNameChanged(object sender, NameChangedEventArgs args)
