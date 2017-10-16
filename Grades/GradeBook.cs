@@ -14,7 +14,7 @@ namespace Grades
         }
 
         // GradeStatistics object holds all the logic > encapsulation
-        public GradeStatistics ComputeStatistics()
+        public virtual GradeStatistics ComputeStatistics()
         {
             GradeStatistics stats = new GradeStatistics();
             float sum = 0;
@@ -76,8 +76,10 @@ namespace Grades
         // Declare Event from a Delegate
         public event NameChangedDelegate NameChanged;
 
+        // Set to protected since we need this list when using inheritance
+        protected List<float> grades;
+
         // Explicit access modifier set to private
-        private List<float> grades;
         private string _name;
     }
 }

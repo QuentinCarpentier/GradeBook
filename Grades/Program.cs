@@ -7,13 +7,21 @@ namespace Grades
     {
         static void Main(string[] args)
         {
-            GradeBook gradeBook = new GradeBook();
+            GradeBook gradeBook = CreateGradeBook();
 
             AddEvents(gradeBook);
             GetBookName(gradeBook);
             AddGrades(gradeBook);
             SaveGrades(gradeBook);
             WriteGrades(gradeBook);
+        }
+
+        // Doesn't make sense for this little app but in many cases, we want the flexibility 
+        // of having something created for you via a factory class, provider or 
+        // some port of infrastructure that's in the app
+        private static ThrowAwayGradeBook CreateGradeBook()
+        {
+            return new ThrowAwayGradeBook();
         }
 
         private static void WriteGrades(GradeBook gradeBook)
