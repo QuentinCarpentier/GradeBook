@@ -19,40 +19,63 @@ namespace Grades
             // Good thing: Compiler is smart enough to understand we want to instanciate
             // the NameChangedDelegate implicitly
             gradeBook.NameChanged += OnNameChanged;
+            gradeBook.NameChanged += OnNameChanged2;
 
             // With delegate, we can assign what we want 
             //gradeBook.NameChanged = null;
             // With events, we can assign something only with += or -= > add subscribers
             //gradeBook.NameChanged += null;
 
-            gradeBook.Name = "Quentin's Grade Book";
-            gradeBook.Name = "Grade book";
-
+            // Handling exeption with try...catch statement
+            try
+            {
+                Console.WriteLine("Enter the name of the Grade Book:");
+                gradeBook.Name = Console.ReadLine();
+                //gradeBook.Name = "Quentin's Grade Book";
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.StackTrace);
+            }
+            
             gradeBook.AddGrade(91);
             gradeBook.AddGrade(89.5f);
             gradeBook.AddGrade(75);
+            gradeBook.WriteGrades(Console.Out);
 
             GradeStatistics gradeStatistics = gradeBook.ComputeStatistics();
-
-            Console.WriteLine(gradeBook.Name);
-            WriteResult("Average", gradeStatistics.AverageGrade);
             WriteResult("Highest", gradeStatistics.HighestGrade);
             WriteResult("Lowest", gradeStatistics.LowestGrade);
+            WriteResult("Average", gradeStatistics.AverageGrade);
+            WriteResult(gradeStatistics.LetterGrade, gradeStatistics.Description);
         }
 
         static void OnNameChanged(object sender, NameChangedEventArgs args)
         {
-            Console.WriteLine($"Grade book changing name from {args.ExistingName} to {args.NewName}");
+            if(args.ExistingName != null)
+            {
+                Console.WriteLine($"Grade book changing name from {args.ExistingName} to {args.NewName}");
+            }
+            else
+            {
+                Console.WriteLine($"Grade book's name is now {args.NewName}");
+            }
         }
 
-        //static void OnNameChanged2(string existingName, string newName)
-        //{
-        //    Console.WriteLine("****");
-        //}
+        static void OnNameChanged2(object sender, NameChangedEventArgs args)
+        {
+            Console.WriteLine("****");
+        }
 
         static void WriteResult(string description, float result)
         {
             Console.WriteLine(description + " grade is " + result);
+        }
+
+        static void WriteResult(string description, string result)
+        {
+            Console.WriteLine(description + ": " + result);
         }
     }
 }
