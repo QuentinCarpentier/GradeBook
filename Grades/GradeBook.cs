@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -41,6 +42,11 @@ namespace Grades
             {
                 destination.WriteLine(grades[i]);
             }
+        }
+
+        public override IEnumerator GetEnumerator()
+        {
+            return grades.GetEnumerator();
         }
 
         // Set to protected since we need this list when using inheritance

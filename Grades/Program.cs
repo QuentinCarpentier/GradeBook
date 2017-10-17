@@ -27,6 +27,13 @@ namespace Grades
         private static void WriteGrades(IGradeTracker gradeBook)
         {
             GradeStatistics gradeStatistics = gradeBook.ComputeStatistics();
+
+            // Only possible when implementing the IEnumerable interface
+            foreach (float grade in gradeBook)
+            {
+                Console.WriteLine(grade);
+            }
+
             WriteResult("Highest", gradeStatistics.HighestGrade);
             WriteResult("Lowest", gradeStatistics.LowestGrade);
             WriteResult("Average", gradeStatistics.AverageGrade);
