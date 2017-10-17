@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Grades
 {
     // Base class, every kind of Grade Books have to implement all those abstract methods
-    public abstract class GradeTracker
+    public abstract class GradeTracker : IGradeTracker
     {
         public abstract GradeStatistics ComputeStatistics();
         public abstract void AddGrade(float grade);

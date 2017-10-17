@@ -7,7 +7,7 @@ namespace Grades
     {
         static void Main(string[] args)
         {
-            GradeTracker gradeBook = CreateGradeBook();
+            IGradeTracker gradeBook = CreateGradeBook();
 
             AddEvents(gradeBook);
             GetBookName(gradeBook);
@@ -24,7 +24,7 @@ namespace Grades
             return new ThrowAwayGradeBook();
         }
 
-        private static void WriteGrades(GradeTracker gradeBook)
+        private static void WriteGrades(IGradeTracker gradeBook)
         {
             GradeStatistics gradeStatistics = gradeBook.ComputeStatistics();
             WriteResult("Highest", gradeStatistics.HighestGrade);
@@ -33,7 +33,7 @@ namespace Grades
             WriteResult(gradeStatistics.LetterGrade, gradeStatistics.Description);
         }
 
-        private static void SaveGrades(GradeTracker gradeBook)
+        private static void SaveGrades(IGradeTracker gradeBook)
         {
             // Implicit try...catch...finally block > Close/Dispose the File even if an exception is thrown
             using (StreamWriter outputFile = File.CreateText("grades.txt"))
@@ -42,14 +42,14 @@ namespace Grades
             }
         }
 
-        private static void AddGrades(GradeTracker gradeBook)
+        private static void AddGrades(IGradeTracker gradeBook)
         {
             gradeBook.AddGrade(91);
             gradeBook.AddGrade(89.5f);
             gradeBook.AddGrade(75);
         }
 
-        private static void GetBookName(GradeTracker gradeBook)
+        private static void GetBookName(IGradeTracker gradeBook)
         {
             // Handling exeption with try...catch statement
             try
@@ -65,7 +65,7 @@ namespace Grades
             }
         }
 
-        private static void AddEvents(GradeTracker gradeBook)
+        private static void AddEvents(IGradeTracker gradeBook)
         {
             // Calling Delegate when the name changed
             //gradeBook.NameChanged = new NameChangedDelegate(OnNameChanged);
